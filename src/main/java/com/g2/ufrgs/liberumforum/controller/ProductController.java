@@ -10,26 +10,35 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/product")
+@RequestMapping("/products")
 public class ProductController {
 
     @Autowired
     private ProductRepository productRepository;
 
-    @GetMapping(path = "/id/{id}")
-    public ResponseEntity<String> getProductById(@PathVariable Long id){
-        return new ResponseEntity(productRepository.findById(id), HttpStatus.OK);
-    }
-
-    @GetMapping(path = "/all")
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping
     public ResponseEntity<List<Product>> getAllProducts(){
         List<Product> productList = productRepository.findAll();
         return new ResponseEntity(productList, HttpStatus.OK);
     }
 
-    @GetMapping(path = "/name")
-    public ResponseEntity<List<Product>> getProductByName(@RequestParam(name="name") String searchParam){
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping(path = "/id/{id}")
+    public ResponseEntity<Product> getProductById(@PathVariable Long id){
+        return new ResponseEntity(productRepository.findById(id), HttpStatus.OK);
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping(path = "/search/{searchParam}")
+    public ResponseEntity<List<Product>> getProductsBySearchParam(@PathVariable String searchParam){
         List<Product> productList = productRepository.findByNameContaining(searchParam);
         return new ResponseEntity(productList, HttpStatus.OK);
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @PostMapping
+    public ResponseEntity<Product> createProduct(@RequestBody Product product){
+        return new ResponseEntity(product, HttpStatus.OK);
     }
 }

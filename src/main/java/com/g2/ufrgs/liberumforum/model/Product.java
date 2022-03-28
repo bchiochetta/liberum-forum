@@ -10,7 +10,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Data
 @Entity
-@Table(name="Products")
+@Table(name="Product")
 public class Product {
 
     @Id
@@ -20,4 +20,5 @@ public class Product {
     private String name;
     private Long vendorId;
     private String description;
+    private long price;
 }
